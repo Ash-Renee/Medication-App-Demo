@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css">
+    <title>Add a New Medication</title>
+</head>
+
+<body>
+    <div class="header">
+        <h1>Hello {{ user.preferred_name }} </h1>
+        <h2>Add a New Medication Here:</h2>
+        <br>
+        <a href="/logout">Logout</a>
+        <br>
+        <br>
+
+    </div>
+    <div class="adds">
+        <style type="text/css">
+            .adds {
+                margin: 0 auto;
+                width: 350px;
+            }
+        
+            .adds label{
+                display: inline-block;
+                text-align: right;
+                float: left;
+            }
+        
+            .adds input{
+                display: inline-block;
+                text-align: left;
+                float: right;
+            }
+            .adds button{
+                display: inline-block;
+                text-align: left;
+                float: right;
+            }
+        </style>
+        <form action="/medication/create" method="post">
+            {% csrf_token %}
+            <p>
+                Prescribing Doctor:
+                <input type="text" name="doctor" id="" />
+
+            </p>
+            <p>
+                Name:
+                <input type="text" name="name" id="" />
+            </p>
+            <p>
+                Common Name:
+                <input type="text" name="common_name" id="" />
+            </p>
+            <p>
+                Dose:
+                <input type="text" name="dose" id="" />
+            </p>
+            <p>
+                Intake Method:
+                <input type="text" name="intake_method" id="">
+            </p>
+            <p>
+                Description:
+                <input type="text" name="description" id="">
+            </p>
+            <p>
+                Frequency:
+                <input type="text" name="frequency" id="" />
+            </p>
+            <p>
+                Starting Count:
+                <input type="number" name="starting_count" id="">
+            </p>
+            <p>
+                End Date (if applicable):
+                <input type="date" name="end_date" id="" />
+            </p>
+            <p>
+                Notes:
+                <input type="text" name="notes" id=""/>
+            </p>
+            <button type="submit">Add a Medication</button>
+        </form>
+
+
+        <br>
+        <br>
+        <a href="/dashboard" style="text-align: float: left;">Cancel</a>
+        {% if messages %}
+        <ul class="messages">
+                {% for message in messages %}         
+            <li {% if message.tags %} class="{{ message.tags }}" {% endif %} style="color: red">
+                {{ message }}
+            </li>
+                {% endfor %}
+        </ul>
+        {% endif %}
+    </div>
+    <script src="://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"
+    integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM"
+    crossorigin="anonymous"></script>
+</body>
+
+</html>

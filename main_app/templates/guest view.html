@@ -1,0 +1,184 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <title>Guest View</title>
+</head>
+
+<body>
+    <style type="text/css">
+        .wrapper {
+            background-color: #231929;
+            color: #efeef0;
+            text-shadow: 1px 1px #88838c;
+        }
+
+        .h1 {
+            display: inline-block;
+
+
+        }
+
+        img {
+            width: 100px;
+            height: 100px;
+            display: inline-block;
+        }
+
+        a {
+            color: #b77ac5;
+            text-shadow: 1px 1px black;
+            /* #90619d */
+        }
+
+        .bg_image {
+            width: 100%;
+            height: 100%;
+            background: url('/static/images/logo.png') center center no-repeat;
+            position: absolute;
+            margin: auto;
+            right: 0;
+            left: 0;
+            top: 0;
+            bottom: 0;
+            width: 100%;
+            height: auto;
+            opacity: .2;
+            z-index: -1;
+        }
+    </style>
+    <div class="wrapper">
+        {% load static %}
+        <h1>Hello, Guest</h1>
+        <form action="/access" method="post">
+            {% csrf_token %}
+            <button type="submit" style="background:transparent; border:none; color: #231929; position: relative;">Login</button>
+        </form>
+        <br>
+        <div class="table">
+            <style type="text/css">
+                .table {
+                    text-align: left;
+                    width: auto;
+                    float: center;
+                    margin-left: auto;
+                    margin-right: auto;
+                    align-content: center;
+                    color: #efeef0;
+                    text-shadow: 1px 1px #b9b6bb;
+                }
+
+                .text-center {
+                    position: sticky;
+                    top: 0;
+                    box-shadow: 0 2px 2px -1px rgba(0, 0, 0, 0.4);
+                }
+            </style>
+
+            <h2 class="text-center">Medication List:</h2>
+            <br>
+            <div class="bg_image"> </div>
+            <form action="/access" method="post">
+                {% csrf_token %}
+
+
+                <table id="myTable" class="table table-bordered, table-striped,">
+                    <thead class="thaed-light">
+                        <tr>
+                            <th onclick="sortTable(0)" style="position: relative;">Provider</th>
+                            <th onclick="sortTable(1)" style="position: relative;">Name</th>
+                            <th onclick="sortTable(3)" style="position: relative;">Common Name</th>
+                            <th onclick="sortTable(4)" style="position: relative;">Dose</th>
+                            <th onclick="sortTable(5)" style="position: relative;">Frequency</th>
+                            <th>Actions</th>
+                            <th onclick="sortTable(6)" style="position: relative;">End Date (If Applicable)</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for meds in med %}
+                        <tr>
+                            <!-- <td><a href="/trips/{{ trips.id }}">{{ med. }}</a></td>  gonna use this for doctor info -->
+                            <td>{{ meds.doctor }}</td>
+                            <td>{{ meds.name }}</td>
+                            <td>{{ meds.common_name }}</td>
+                            <td>{{ meds.dose }}</td>
+                            <td>{{ meds.frequency }}</td>
+                            <td>
+                                <a href="/medication/{{meds.id}}" style="position: relative;">View</a>
+
+                            </td>
+                        </tr>
+                        {% endfor %}
+                    </tbody>
+                    <script>
+                        function sortTable(n) {
+                            var table, rows, switching, i, x, y, shouldSwitch, dir, switchcount = 0;
+                            table = document.getElementById("myTable");
+                            switching = true;
+                            // Set the sorting direction to ascending:
+                            dir = "asc";
+                            /* Make a loop that will continue until
+                            no switching has been done: */
+                            while (switching) {
+                                // Start by saying: no switching is done:
+                                switching = false;
+                                rows = table.rows;
+                                /* Loop through all table rows (except the
+                                first, which contains table headers): */
+                                for (i = 1; i < (rows.length - 1); i++) {
+                                    // Start by saying there should be no switching:
+                                    shouldSwitch = false;
+                                    /* Get the two elements you want to compare,
+                                    one from current row and one from the next: */
+                                    x = rows[i].getElementsByTagName("TD")[n];
+                                    y = rows[i + 1].getElementsByTagName("TD")[n];
+                                    /* Check if the two rows should switch place,
+                                    based on the direction, asc or desc: */
+                                    if (dir == "asc") {
+                                        if (x.innerHTML.toLowerCase() > y.innerHTML.toLowerCase()) {
+                                            // If so, mark as a switch and break the loop:
+                                            shouldSwitch = true;
+                                            break;
+                                        }
+                                    } else if (dir == "desc") {
+                                        if (x.innerHTML.toLowerCase() < y.innerHTML.toLowerCase()) {
+                                            // If so, mark as a switch and break the loop:
+                                            shouldSwitch = true;
+                                            break;
+                                        }
+                                    }
+                                }
+                                if (shouldSwitch) {
+                                    /* If a switch has been marked, make the switch
+                                    and mark that a switch has been done: */
+                                    rows[i].parentNode.insertBefore(rows[i + 1], rows[i]);
+                                    switching = true;
+                                    // Each time a switch is done, increase this count by 1:
+                                    switchcount++;
+                                } else {
+                                    /* If no switching has been done AND the direction is "asc",
+                                    set the direction to "desc" and run the while loop again. */
+                                    if (switchcount == 0 && dir == "asc") {
+                                        dir = "desc";
+                                        switching = true;
+                                    }
+                                }
+                            }
+                        }
+                    </script>
+                </table>
+        </div>
+    </div>
+
+    <!-- <div class="footer">
+            <a href="/medication/new">Add a New Medication</a>
+        </div> -->
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+    </div>
+</body>
+
+</html>

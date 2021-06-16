@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+  <title>Hive Access</title>
+</head>
+
+<body>
+  <style type="text/css">
+    .wrapper {
+      background-color: #231929;
+      color: #efeef0;
+      text-shadow: 1px 1px #88838c;
+      height: 1000px;
+    }
+    h2{
+      justify-content: right;
+    }
+
+    form {
+      float: center;
+      align-content: center;
+      margin-left: auto;
+      margin-right: auto;
+      position: relative;
+    }
+
+    .bg_image {
+      width: 100%;
+      height: 100%;
+      background: url('/static/images/logo.png') center center no-repeat;
+      position: absolute;
+      margin: auto;
+      right: 0;
+      left: 0;
+      top: 0;
+      bottom: 0;
+      width: 100%;
+      height: auto;
+      opacity: .2;
+    }
+  </style>
+  <div class="wrapper">
+    <div class="bg_image"> </div>
+    <div class="data">
+      <h2>Welcome Hive Administrator</h2>
+      <form action="/verify" method="post">
+        {% csrf_token %}
+        <p>
+          Email:
+          <input type="text" name="email" id="" />
+        </p>
+        <p>
+          Password:
+          <input type="password" name="password" id="" />
+        </p>
+        <button>Login</button>
+      </form>
+      <br>
+      <form action="/registration" method="post">
+        {% csrf_token %}
+      </form>
+      {% if messages %}
+      <ul class="messages">
+            {% for message in messages %}         
+        <li {% if message.tags %} class="{{ message.tags }}" {% endif %} style="color: red">
+          {{ message }}
+        </li>
+            {% endfor %}
+      </ul>
+      {% endif %}
+    </div>
+  </div>
+  </div>
+</body>
+
+</html>
